@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import "./login.css"
 
-const Register = ({ props }) => {
-    const [isLogin, setIsLogin] = useState(false);
+const Register = ( props ) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,15 +41,6 @@ const Register = ({ props }) => {
         <div className="login-container">
             <h2 style={{color: "#007bff"}}>Register</h2>
             <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                    <label>Username:</label>
-                    <input
-                        type="text"
-                        value={text}
-                        onChange={handleUsernameChange}
-                        className="form-control-input"
-                    />
-                </div>
                 <div className="form-group">
                     <label>Email:</label>
                     <input
@@ -69,22 +59,13 @@ const Register = ({ props }) => {
                         className="form-control-input"
                     />
                 </div>
-                <div className="form-group">
-                    <label>Confirm your password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordConfirmChange}
-                        className="form-control-input"
-                    />
-                </div>
                 <button type="submit" className="submit-btn">
-                    {isLogin ? 'Register' : 'Login'}
+                    Register
                 </button>
             </form>
             <div className="subscript">
                 <p>
-                    Have an account? <button onClick={() => props.handleLogin()}>Register</button>
+                    Have an account? <button onClick={() => props.handleLogin()}>Login</button>
                 </p>
             </div>
         </div>

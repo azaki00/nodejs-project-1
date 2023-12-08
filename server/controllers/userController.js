@@ -74,6 +74,7 @@ exports.forgotPassword = async (req, res) => {
     try {
         // 1-Check if user exists
         const user = await User.findOne({ email: req.body.email });
+        // console.log(user);
         if (!user) {
             return res.status(404).json({ message: "User with the provided email doesn't exist." })
         }
@@ -125,17 +126,24 @@ exports.resetPassword = async (req, res) => {
 
         // 1-Get the user 
         const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
-        // console.log(hashedToken);
-        const user = User.findOne({
-            passwordResetToken: hashedToken,
-            passwordResetExpires: { $gt: Date.now() }
+        // console.log("hashed token: " + hashedToken);
+        // console.log("token from url: " + req.params.token);
+        const dummyExpiryDate = Date.now(); 
+        const user = await User.findOne({
+            passwordResetToken: hashedToken
+            // passwordResetExpires: { $gt: Date.now() }
         })
-        console.log(user);
+        // console.log(user);
 
         // 2-Check if user exists
         if (!user) {
+            return res.status(400).json({ message: "The token is invalid. Please request a new one..." });
+        }
+        // 2.1-Check Expiry
+        if(dummyExpiryDate > user.passwordResetExpires){
             return res.status(400).json({ message: "The token is invalid or expired. Please request a new one..." });
         }
+
 
         // 3-Check password requirements (length)
         if (req.body.password.length < 8) {
@@ -156,7 +164,7 @@ exports.resetPassword = async (req, res) => {
         user.passwordResetExpires = undefined;
         user.passwordDateChangedAt = Date.now();
 
-        // await user.save({ validateBeforeSave: false });
+        await user.save({ validateBeforeSave: false });
 
         return res.status(200).json({ message: "Password changed successfully!" })
 
