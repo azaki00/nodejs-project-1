@@ -38,9 +38,9 @@ const ForgotPassword = (props) => {
 
     return (
         <div className="login-container">
-            <h2 style={{ color: "#007bff" }}>Forgot Your Password?</h2>
             {(!emailSent) ?
                 <>
+                    <h2 style={{ color: "#007bff" }}>Forgot Your Password?</h2>
                     <h5>
                         Enter your email so we can send you a reset link
                     </h5>
@@ -66,8 +66,9 @@ const ForgotPassword = (props) => {
                 </>
                 :
                 <>
+                    <h2 style={{ color: "#007bff" }}>Email send!</h2>
                     <h5>
-                        Email sent! Please check your inbox.
+                        Please check your inbox.
                     </h5>
                     <div className="subscript">
                         <p>
